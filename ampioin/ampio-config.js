@@ -3,6 +3,7 @@ module.exports = function(RED) {
     
     const mqtt = require('mqtt');
     const net = require("net");
+    const au = require('../generic/ampio-utils');
 
     function unixSocketConnectionBuilder(client, opts) {
         return net.createConnection(opts.pathname);
@@ -321,7 +322,7 @@ module.exports = function(RED) {
         RED.httpAdmin.get('/ampio/'+node_id+'/devices/desc', RED.auth.needsPermission('ampio.read'),function(req,res){
         
             let i = 0;
-            let dmac=req.query.mac;
+            let dmac = au.sanitize_mac(req.query.mac);
 
             console.log("Get descriptions");
             function btoa(data){
